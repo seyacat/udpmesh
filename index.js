@@ -36,6 +36,11 @@ server.on('message', (message, info) => {
   });*/
 });
 
+server.on('error', (err) => {
+  console.log('Error: ', err);
+  server.close();
+});
+
 setInterval(() => {
   if (!ready) return;
   for (node of nodes) {
@@ -44,13 +49,16 @@ setInterval(() => {
 }, 5000);
 
 const start = (port) => {
-  try {
+  //try {
     console.log({ port });
-    server.bind(port);
-  } catch (e) {
+    server.bind(port, null, () => {
+       ready = true;
+      console.log(`listening on ${port}`);
+    });
+  /*} catch (e) {
     console.log(e);
     start(port + 1);
-  }
+  }*/
 };
 
 console.log({ port });
