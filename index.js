@@ -3,7 +3,7 @@ const UDP = require('dgram');
 const server = UDP.createSocket('udp4');
 dotevn.config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const nodes = [
   { ip: '127.0.0.1', port },
   { ip: '127.0.0.1', port: port + 1 },
@@ -14,7 +14,7 @@ server.on('listening', () => {
   const address = server.address();
 
   console.log(
-    'Listining to ',
+    'Listening to ',
     'Address: ',
     address.address,
     'Port: ',
@@ -41,4 +41,17 @@ setInterval(() => {
   }
 }, 5000);
 
-server.bind(port);
+const start = (port) => {
+  try {
+    console.log({port})
+    server.bind(port, null, () => {
+      console.log(`listening on ${port}`);
+    });
+  } catch (e) {
+    console.log(e);
+    start(port + 1);
+  }
+};
+
+console.log({port})
+start(port);
