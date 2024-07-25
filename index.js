@@ -4,6 +4,10 @@ const server = UDP.createSocket('udp4');
 dotevn.config();
 
 const port = process.env.PORT || 3000;
+const nodes = [
+  { ip: '127.0.0.1', port },
+  { ip: '127.0.0.1', port: port + 1 },
+];
 
 server.on('listening', () => {
   // Server address it’s using to listen
@@ -19,16 +23,22 @@ server.on('listening', () => {
 });
 
 server.on('message', (message, info) => {
-  console.log('Message', message.toString());
+  console.log('Message:', message.toString(), info);
   const response = Buffer.from('Message Received');
   //sending back response to client
-  server.send(response, info.port, info.address, (err) => {
+  /*server.send(response, info.port, info.address, (err) => {
     if (err) {
       console.error('Failed to send response !!');
     } else {
       console.log('Response send Successfully');
     }
-  });
+  });*/
 });
+
+setInterval(() => {
+  for (node of nodes) {
+    server.send('alive', node.port, node.ip, (err) => {});
+  }
+}, 5000);
 
 server.bind(port);
