@@ -4,7 +4,7 @@ const server = UDP.createSocket('udp4');
 let ready = false;
 dotevn.config();
 
-const port = 4000;
+let port = 4000;
 const nodes = [
   { ip: '127.0.0.1', port },
   { ip: '127.0.0.1', port: port + 1 },
@@ -39,7 +39,8 @@ server.on('message', (message, info) => {
 server.on('error', (err) => {
   console.log('Error: ', err);
   if(err.code == 'EADDRINUSE') {
-    start(port + 1);
+    port = port + 1
+    start(port);
   }
 });
 
@@ -51,16 +52,13 @@ setInterval(() => {
 }, 5000);
 
 const start = (port) => {
-  //try {
+  
     console.log({ port });
     server.bind(port, null, () => {
        ready = true;
       console.log(`listening on ${port}`);
     });
-  /*} catch (e) {
-    console.log(e);
-    start(port + 1);
-  }*/
+  
 };
 
 console.log({ port });
