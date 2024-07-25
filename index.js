@@ -46,10 +46,7 @@ setInterval(() => {
 const start = (port) => {
   //try {
     console.log({ port });
-    server.bind(port, null, () => {
-      ready = true;
-      console.log(`listening on ${port}`);
-    });
+    server.bind(port);
   /*} catch (e) {
     console.log(e);
     start(port + 1);
