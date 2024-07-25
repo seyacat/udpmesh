@@ -38,7 +38,9 @@ server.on('message', (message, info) => {
 
 server.on('error', (err) => {
   console.log('Error: ', err);
-  server.close();
+  if(err.code == 'EADDRINUSE') {
+    start(port + 1);
+  }
 });
 
 setInterval(() => {
