@@ -1,6 +1,7 @@
 const dotevn = require('dotenv');
 const UDP = require('dgram');
 const server = UDP.createSocket('udp4');
+let ready = false;
 dotevn.config();
 
 const port = process.env.PORT || 4000;
@@ -36,22 +37,24 @@ server.on('message', (message, info) => {
 });
 
 setInterval(() => {
+  if (!ready) return;
   for (node of nodes) {
     server.send('alive', node.port, node.ip, (err) => {});
   }
 }, 5000);
 
 const start = (port) => {
-  try {
-    console.log({port})
+  //try {
+    console.log({ port });
     server.bind(port, null, () => {
+      ready = true;
       console.log(`listening on ${port}`);
     });
-  } catch (e) {
+  /*} catch (e) {
     console.log(e);
     start(port + 1);
-  }
+  }*/
 };
 
-console.log({port})
+console.log({ port });
 start(port);
