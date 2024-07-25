@@ -4,7 +4,7 @@ const server = UDP.createSocket('udp4');
 let ready = false;
 dotevn.config();
 
-const port = process.env.PORT || 4000;
+const port = 4000;
 const nodes = [
   { ip: '127.0.0.1', port },
   { ip: '127.0.0.1', port: port + 1 },
