@@ -1,7 +1,6 @@
 const dotevn = require('dotenv');
 const UDP = require('dgram');
 const server = UDP.createSocket('udp4');
-let ready = false;
 dotevn.config();
 
 let port = 4000;
@@ -37,29 +36,19 @@ server.on('message', (message, info) => {
 });
 
 server.on('error', (err) => {
-  console.log('Error: ', err);
-  if(err.code == 'EADDRINUSE') {
-    port = port + 1
-    start(port);
-  }
+  //console.log('Error: ', err);
+  
 });
 
 setInterval(() => {
-  if (!ready) return;
   for (node of nodes) {
     server.send('alive', node.port, node.ip, (err) => {});
   }
 }, 5000);
 
-const start = (port) => {
-  
-    console.log({ port });
-    server.bind(port, null, () => {
-       ready = true;
+
+  server.bind(port, null, () => {
       console.log(`listening on ${port}`);
     });
   
-};
 
-console.log({ port });
-start(port);
