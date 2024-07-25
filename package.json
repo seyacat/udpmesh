@@ -1,0 +1,18 @@
+{
+  "name": "udpmesh",
+  "version": "1.0.0",
+  "description": "udpmesh",
+  "main": "index.js",
+  "scripts": {
+    "watch": "npx nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
